@@ -20,4 +20,4 @@ Based on the [Beego](https://github.com/astaxie/beego/) api.
 
 
 ## License
-* [Apache](https://github.com/tianhanfangyan/beego-app/blob/master/LICENSE`)
+* [Apache](LICENSE)
