@@ -1,23 +1,23 @@
 package models
 
 import (
+	"errors"
 	"strconv"
 	"time"
-	"errors"
 )
 
 type Student struct {
-	Id string
+	Id   string
 	Name string
-	Age int
-	Sex string
+	Age  int
+	Sex  string
 }
 
 var (
 	StudentList map[string]*Student
 )
 
-func init()  {
+func init() {
 	StudentList = make(map[string]*Student)
 	s := Student{"1", "ben", 26, "male"}
 	StudentList["user_1"] = &s
@@ -35,7 +35,6 @@ func GetStudent(uid string) (s *Student, err error) {
 	}
 	return nil, errors.New("Student not exists")
 }
-
 
 func GetAllStudent() map[string]*Student {
 	return StudentList

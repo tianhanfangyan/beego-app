@@ -89,4 +89,3 @@ func (u *StudentController) Delete() {
 	u.Data["json"] = "delete success!"
 	u.ServeJSON()
 }
-
