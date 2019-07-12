@@ -3,8 +3,8 @@ package models
 import (
 	"errors"
 	"strconv"
-	"time"
 	"sync"
+	"time"
 )
 
 type Student struct {
@@ -36,8 +36,20 @@ func GetStudent(uid string) (s *Student, err error) {
 	return nil, errors.New("Student not exists")
 }
 
-func GetAllStudent() sync.Map {
-	return StudentList
+func GetAllStudent() map[string]*Student {
+	Datalist := make(map[string]*Student)
+
+	//Range
+	//遍历sync.Map, 要求输入一个func作为参数
+	f := func(k, v interface{}) bool {
+		//这个函数的入参、出参的类型都已经固定，不能修改
+		//可以在函数体内编写自己的代码，调用map中的k,v
+		Datalist[k.(string)] = v.(*Student)
+		return true
+	}
+	StudentList.Range(f)
+
+	return Datalist
 }
 
 func UpdateStudent(uid string, ss *Student) (a *Student, err error) {
