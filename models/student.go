@@ -4,6 +4,7 @@ import (
 	"errors"
 	"strconv"
 	"time"
+	"sync"
 )
 
 type Student struct {
@@ -14,49 +15,48 @@ type Student struct {
 }
 
 var (
-	StudentList map[string]*Student
+	StudentList sync.Map
 )
 
 func init() {
-	StudentList = make(map[string]*Student)
 	s := Student{"1", "ben", 26, "male"}
-	StudentList["user_1"] = &s
+	StudentList.Store("user_1", &s)
 }
 
 func AddStudent(s Student) string {
 	s.Id = "user_" + strconv.FormatInt(time.Now().UnixNano(), 10)
-	StudentList[s.Id] = &s
+	StudentList.Store(s.Id, &s)
 	return s.Id
 }
 
 func GetStudent(uid string) (s *Student, err error) {
-	if s, ok := StudentList[uid]; ok {
-		return s, nil
+	if s, ok := StudentList.Load(uid); ok {
+		return s.(*Student), nil
 	}
 	return nil, errors.New("Student not exists")
 }
 
-func GetAllStudent() map[string]*Student {
+func GetAllStudent() sync.Map {
 	return StudentList
 }
 
 func UpdateStudent(uid string, ss *Student) (a *Student, err error) {
-	if s, ok := StudentList[uid]; ok {
+	if s, ok := StudentList.Load(uid); ok {
 		if ss.Name != "" {
-			s.Name = ss.Name
+			s.(*Student).Name = ss.Name
 		}
 		if ss.Age != 0 {
-			s.Age = ss.Age
+			s.(*Student).Age = ss.Age
 		}
 		if ss.Sex != "" {
-			s.Sex = ss.Sex
+			s.(*Student).Sex = ss.Sex
 		}
 
-		return s, nil
+		return s.(*Student), nil
 	}
 	return nil, errors.New("User Not Exist")
 }
 
 func DeleteStudent(uid string) {
-	delete(StudentList, uid)
+	StudentList.Delete(uid)
 }
