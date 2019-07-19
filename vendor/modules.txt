@@ -1,8 +1,9 @@
 # github.com/astaxie/beego v1.12.0
 github.com/astaxie/beego
+github.com/astaxie/beego/plugins/auth
+github.com/astaxie/beego/context/param
 github.com/astaxie/beego/config
 github.com/astaxie/beego/context
-github.com/astaxie/beego/context/param
 github.com/astaxie/beego/grace
 github.com/astaxie/beego/logs
 github.com/astaxie/beego/session
